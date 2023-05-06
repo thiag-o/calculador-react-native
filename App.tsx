@@ -3,17 +3,41 @@ import { StyleSheet, Text, View } from "react-native";
 import Button from "./src/components/Button";
 import Display from "./src/components/Display";
 import React from "react";
-Display;
+
+const initialState = {
+  displayValue: "0",
+  clearDisplay: false,
+  operation: null,
+  values: [0, 0],
+  current: 0,
+};
 
 export default function App() {
-  const [displayValue, setDisplayValue] = React.useState("0");
+  const [state, setState] = React.useState(initialState);
 
   function addDigit(n: any) {
-    setDisplayValue(n);
+    if (n === "." && state.displayValue.includes(".")) {
+      return;
+    }
+    const clearDisplay = state.displayValue === "0" || state.clearDisplay;
+    const current = clearDisplay ? "" : state.displayValue;
+    const displayValue = current + n;
+    setState((value) => {
+      return { ...value, displayValue, clearDisplay: false };
+    });
+
+    if (n !== ".") {
+      const newValue = parseFloat(displayValue);
+      const values = [...state.values];
+      values[state.current] = newValue;
+      setState((value) => {
+        return { ...value, values };
+      });
+    }
   }
 
   function clearMemory() {
-    setDisplayValue("0");
+    setState({ ...initialState });
   }
 
   function setOperation(ation: any) {
@@ -22,7 +46,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Display value={displayValue} />
+      <Display value={state.displayValue} />
       <View style={styles.buttons}>
         <Button label="AC" triple onClick={clearMemory} />
         <Button label="/" operation onClick={setOperation} />
