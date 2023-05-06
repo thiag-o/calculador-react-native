@@ -2,4 +2,4 @@
 
 ## projeto simples para treinar react-native 
 
-![image](https://user-images.githubusercontent.com/77461960/236641922-3311473f-45c6-4f91-b8dd-d4555794df4c.png)
+![image](https://user-images.githubusercontent.com/77461960/236641976-e51d2040-482f-4b86-9ddb-192cb2003608.png)
